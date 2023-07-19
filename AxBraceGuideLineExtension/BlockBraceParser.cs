@@ -60,7 +60,7 @@ namespace AxBraceGuideLineExtension
             
             foreach (int blockStartBraceIndex in StackExtension.enumerateIndexesСorrespondenceByCharInSourceCodeString(ref _xppCode, curlyBracketLeft))
             {
-                blockEndBraceIndex = blockBraceEndIndexes.FirstOrDefault(w => w > blockStartBraceIndex);
+                blockEndBraceIndex = blockBraceEndIndexes.Cast<int?>().FirstOrDefault(w => w > blockStartBraceIndex);
                 
                 if (blockEndBraceIndex.HasValue && !blockEndBraceIndex.Value.isNegative())
                 {
@@ -75,6 +75,7 @@ namespace AxBraceGuideLineExtension
                     {
                         result.Add(new BlockSpan(offset, blockStartBraceIndex, blockEndBraceIndex.Value - blockStartBraceIndex));
                     }
+
                     blockBraceEndIndexes.Remove(blockEndBraceIndex.Value);
                 }
             }
