@@ -36,7 +36,7 @@ namespace AxBraceGuideLineExtension
         {
             result = new List<BlockSpan>();
             restrictions = SourceCodeBlockRestrictionBase.createInheritors();
-            analysingChars = new char[3] { curlyBracketLeft, curlyBracketRight, newLineWindowsChar }.Union(restrictions.getStartRestrictionChars()).ToArray();
+            analysingChars = new char[3] { curlyBracketLeft, curlyBracketRight, newLineWindowsChar }.Union(restrictions.getHandlingChars()).ToArray();
         }
 
         internal List<BlockSpan> Parse(ITextSnapshot _textSnapshot)
@@ -65,14 +65,7 @@ namespace AxBraceGuideLineExtension
 
             do
             {
-                if (activeRestruction is null)
-                {
-                    index = _xppCode.IndexOfAny(analysingChars, index + 1);
-                }
-                else
-                {
-                    index = _xppCode.IndexOf(activeRestruction.endRestrictionChar(), index + 1);
-                }
+                index = _xppCode.IndexOfAny(activeRestruction is null ? analysingChars : activeRestruction.getHandlingChars(), index + 1);
 
                 if (!index.isNegative())
                 {
@@ -115,7 +108,7 @@ namespace AxBraceGuideLineExtension
             while (index != indexNotFound);
 
             restrictions.freeAll();
-
+            
             result.Sort(BlockSpanSorter.Instance);
             
             Dictionary<int, List<Span>> keyValuePairs = new Dictionary<int, List<Span>>();

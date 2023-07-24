@@ -15,11 +15,9 @@
 
 namespace AxBraceGuideLineExtension
 {
-    internal interface ISourceCodeBlockRestriction
+    internal interface ISourceCodeBlockIncludeRestriction
     {
-        char startRestrictionChar();
-        char endRestrictionChar();
-
+        char[] getHandlingChars();
         bool tryToSetRestriction(ref string _analysingText, int _analysingIndex);
         bool tryToRemoveRestriction(ref string _analysingText, int _analysingIndex);
     }

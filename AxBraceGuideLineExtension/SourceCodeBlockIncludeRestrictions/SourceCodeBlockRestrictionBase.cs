@@ -17,15 +17,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace AxBraceGuideLineExtension
 {
-    internal abstract class SourceCodeBlockRestrictionBase : ISourceCodeBlockRestriction
+    internal abstract class SourceCodeBlockRestrictionBase : ISourceCodeBlockIncludeRestriction
     {
         public bool isRestructed { get; private set; }
         protected int analysingIndex = default;
-        public abstract char startRestrictionChar();
-        public abstract char endRestrictionChar();
+        public abstract char[] getHandlingChars();
         public abstract bool isSetRestriction(char _analysingChar);
         public abstract bool isRemoveRestriction(char _analysingChar);
 

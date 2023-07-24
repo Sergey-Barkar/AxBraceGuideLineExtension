@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AxBraceGuideLineExtension
 {
@@ -44,13 +45,13 @@ namespace AxBraceGuideLineExtension
             }
         }
 
-        internal static char[] getStartRestrictionChars(this List<SourceCodeBlockRestrictionBase> _this)
+        internal static char[] getHandlingChars(this List<SourceCodeBlockRestrictionBase> _this)
         {
-            char[] ret = new char[_this.Count];
+            char[] ret = new char[0];
 
-            for (int j = 0; j < _this.Count; j++)
+            foreach(var restruction in _this)
             {
-                ret[j] = _this[j].startRestrictionChar();
+                ret = ret.Union(restruction.getHandlingChars()).ToArray();
             }
 
             return ret;

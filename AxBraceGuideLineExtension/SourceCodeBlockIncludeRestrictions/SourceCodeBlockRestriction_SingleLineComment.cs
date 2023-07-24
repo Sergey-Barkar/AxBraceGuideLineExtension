@@ -21,14 +21,9 @@ namespace AxBraceGuideLineExtension
         protected const char slashChar = '/';
         protected int? previousMatchingAnalysedIndex = default;
 
-        public sealed override char startRestrictionChar()
+        public override char[] getHandlingChars()
         {
-            return slashChar;
-        }
-
-        public override char endRestrictionChar()
-        {
-            return newLineAsciiChar;
+            return new char[] { slashChar, newLineAsciiChar };
         }
 
         public override bool isSetRestriction(char _analysingChar)

@@ -19,9 +19,9 @@ namespace AxBraceGuideLineExtension
     {
         private const char asteriskChar = '*';
 
-        public override char endRestrictionChar()
+        public override char[] getHandlingChars()
         {
-            return asteriskChar;
+            return new char[] { slashChar, asteriskChar };
         }
 
         public override bool isSetRestriction(char _analysingChar)

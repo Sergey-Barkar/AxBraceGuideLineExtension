@@ -19,14 +19,9 @@ namespace AxBraceGuideLineExtension
     {
         protected virtual char quoteChar => '\'';
 
-        public sealed override char startRestrictionChar()
+        public sealed override char[] getHandlingChars()
         {
-            return quoteChar;
-        }
-
-        public sealed override char endRestrictionChar()
-        {
-            return quoteChar;
+            return new char[] { quoteChar };
         }
 
         public sealed override bool isSetRestriction(char _analysingChar)
