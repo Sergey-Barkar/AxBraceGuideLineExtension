@@ -1,4 +1,4 @@
-f## AxBraceGuideLineExtension
+## AxBraceGuideLineExtension
 It is the extension for Microsoft Dynamamics AX 2012 witch adding the ordinary feature for modern IDEs - showing guide lines for a code blocks.
 
 ![Image1](Images/AxBraceGuideLineExtension_img1.jpg)
