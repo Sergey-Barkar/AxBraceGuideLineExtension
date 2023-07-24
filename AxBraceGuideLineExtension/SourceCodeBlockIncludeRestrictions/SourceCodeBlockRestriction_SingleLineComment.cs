@@ -13,46 +13,46 @@
     OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Editor;
-using System.Windows.Shapes;
-
 namespace AxBraceGuideLineExtension
 {
-    internal struct BlockSpan 
+    internal class SourceCodeBlockRestriction_SingleLineComment : SourceCodeBlockRestrictionBase
     {
-        internal const int validHorizontalOffsetCoefficient = 4;
-        internal readonly bool isValid;
-        internal readonly int horizontalOffsetLeft;
-        private readonly Span verticalSpan;
+        private const char newLineAsciiChar = '\n';
+        protected const char slashChar = '/';
+        protected int? previousMatchingAnalysedIndex = default;
 
-        internal BlockSpan(int _horizontalOffsetLeft, int _start, int _length)
+        public sealed override char startRestrictionChar()
         {
-            horizontalOffsetLeft = _horizontalOffsetLeft;
-
-            isValid = ((_horizontalOffsetLeft) % validHorizontalOffsetCoefficient).isZero();
-
-            verticalSpan = new Span(_start, _length);
+            return slashChar;
         }
 
-        public static implicit operator Span(BlockSpan _typesSpan)
+        public override char endRestrictionChar()
         {
-            return _typesSpan.verticalSpan;
+            return newLineAsciiChar;
         }
 
-        internal SnapshotSpan toSnapshotSpan(ITextSnapshot _textSnapshot)
+        public override bool isSetRestriction(char _analysingChar)
         {
-            return new SnapshotSpan(_textSnapshot, this);
+            bool ret = false;
+
+            if (_analysingChar == slashChar)
+            {
+                if (previousMatchingAnalysedIndex.HasValue && previousMatchingAnalysedIndex.Value + 1 == analysingIndex)
+                {
+                    ret = true;
+                }
+                else
+                {
+                    previousMatchingAnalysedIndex = analysingIndex;
+                }
+            }
+
+            return ret;
         }
 
-        internal BlockSpanViewIntersecting toBlockSpanViewIntersecting(IWpfTextView _IView)
+        public override bool isRemoveRestriction(char _analysingChar)
         {
-            return new BlockSpanViewIntersecting(_IView, this);
-        }
-
-        internal Line newLineFromBlockSpanViewIntersecting(BlockSpanViewIntersecting _viewIntersecting)
-        {
-            return LineExtension.Instance.newFromBlockSpan(this).updatePosition(_viewIntersecting);
+            return _analysingChar == newLineAsciiChar;
         }
     }
 }

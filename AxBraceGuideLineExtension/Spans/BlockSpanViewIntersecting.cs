@@ -39,8 +39,8 @@ namespace AxBraceGuideLineExtension
 
             if (isDrawable)
             {
-                var line = snapshotSpanToDraw.Start.GetContainingLine().Start + _blockSpan.horizontalOffsetLeft;
-                var bounds = _IView.GetTextViewLineContainingBufferPosition(line).GetExtendedCharacterBounds(line);
+                var point = snapshotSpanToDraw.Start.GetContainingLine().Start + _blockSpan.horizontalIndent;
+                var bounds = _IView.GetTextViewLineContainingBufferPosition(point).GetExtendedCharacterBounds(point);
                 horizontalOffsetLeft = Math.Round(bounds.Left + bounds.Width / 2);
                 verticalOffsetTop = viewLines[firstDrawableLineIndex].Top;
                 verticalOffsetBottom = viewLines[endIndex].Bottom;
